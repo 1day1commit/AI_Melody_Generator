@@ -1,0 +1,42 @@
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #E0F7FA; /* Sky blue background */
+        color: #0277BD; /* Dark blue text for contrast */
+        text-align: center;
+        padding: 20px;
+    }
+    h1 {
+        color: #01579B;
+    }
+    button {
+        background-color: #29B6F6; /* Lighter blue */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-transform: uppercase;
+        margin: 20px 0;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: 500;
+    }
+    button:hover {
+        background-color: #0288D1; /* Darker blue when hovered */
+    }
+    #melodyLink, #lyricsContainer {
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: inline-block;
+    }
+    #lyricsContainer {
+        width: 80%;
+        max-width: 600px;
+        margin: auto;
+        overflow-wrap: break-word;
+    }
+    midi-player, midi-visualizer {
+        display: block;
+        margin: 20px auto;
+    }
