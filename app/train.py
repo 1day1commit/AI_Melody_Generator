@@ -24,14 +24,12 @@ def build_model(output_units, num_units, loss, learning_rate):
     model.compile(loss=loss,
                   optimizer=keras.optimizers.Adam(learning_rate=learning_rate),
                   metrics=["accuracy"])
-
     model.summary()
 
     return model
 
 
 def train(output_units=OUTPUT_UNITS, num_units=NUM_UNITS, loss=LOSS, learning_rate=LEARNING_RATE):
-
 
     #generate the training sequences
     inputs, targets = generate_training_sequences(SEQUENCE_LENGTH)

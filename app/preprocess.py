@@ -47,7 +47,7 @@ def encode_song(song, time_step=0.25):
     """Converts a score into a time-series-like music representation. Integers for MIDI notes, 'r' for representing a rest, and '_'
     for representing notes/rests that are carried over into a new time step.
     Sample:
-        ["r", "_", "60", "_", "_", "_", "72" "_"]
+        ["r", "_", "62", "_", "_", "_", "72" "_"]
     """
     encoded_song = []
 
@@ -102,7 +102,6 @@ def load(file_path):
 def create_single_file_dataset(dataset_path, file_dataset_path, sequence_length):
     """Generates a file collating all the encoded songs and adding new piece delimiters.
     """
-
     new_song_delimiter = "/ " * sequence_length
     songs = ""
 
@@ -159,15 +158,12 @@ def convert_songs_to_int(songs):
 def generate_training_sequences(sequence_length):
     """Create input and output data samples for training. Each sample is a sequence.
     """
-
-    # load songs and map them to int
     songs = load(SINGLE_FILE_DATASET)
     int_songs = convert_songs_to_int(songs)
 
     inputs = []
     targets = []
 
-    # generate the training sequences
     num_sequences = len(int_songs) - sequence_length
     for i in range(num_sequences):
         inputs.append(int_songs[i:i+sequence_length])
@@ -180,7 +176,6 @@ def generate_training_sequences(sequence_length):
     targets = np.array(targets)
 
     print(f"There are {len(inputs)} sequences.")
-
     return inputs, targets
 
 def main():
@@ -199,9 +194,9 @@ if __name__ == "__main__":
     # song = songs[0]
 
     # print(
-    #     f"Has acceptable duration? {has_acceptable_durations(song, ACCEPTABLE_DURATIONS)}")
+    #     f"acceptable duration? {has_acceptable_durations(song, ACCEPTABLE_DURATIONS)}")
 
     # preprocess(KERN_DATASET_PATH)
 
     # # song.show()
-    # transposed_song.show()
+

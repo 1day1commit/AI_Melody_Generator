@@ -9,10 +9,8 @@ from flask import current_app
 
 class MelodyGenerator:
     """A class that wraps the LSTM model and offers utilities to generate melodies."""
-
     def __init__(self, model_path="app/model.h5"):
         """Constructor that initialises TensorFlow model"""
-
         self.model_path = model_path
         self.model = keras.models.load_model(model_path)
 
@@ -24,7 +22,6 @@ class MelodyGenerator:
 
     def generate_melody(self, seed, num_steps, max_sequence_length, temperature):
         """Generates a melody using the DL model and returns a midi file.
-        :return melody (list of str): List with symbols representing a melody
         """
         # create seed with start symbols
         seed = seed.split()
@@ -48,7 +45,6 @@ class MelodyGenerator:
             for _ in range(num_steps):
                 ...
                 output_int = self._sample_with_temperature(probabilities, temperature)
-
                 # Check for repetition and adjust temperature dynamically
                 if output_int in recent_notes[-5:]:
                     temperature = min(temperature + 0.1, 1.0)  # Increase diversity
@@ -61,7 +57,7 @@ class MelodyGenerator:
             # update seed
             seed.append(output_int)
 
-            # map int to our encoding
+            # map int to encoding
             output_symbol = [k for k, v in self._mappings.items() if v == output_int][0]
             consecutive_underscores = 0
             if output_symbol == "_":
@@ -87,11 +83,12 @@ class MelodyGenerator:
         "88", "75", "58", "45", "56", "79", "62", "71", "65", "78", "80", "50",
         "76", "54", "96", "85", "51", "91", "57", "72", "52", "46", "77", "49",
         "82", "55", "74"
-        ]
+        ] # keys mapped by the model in 'mapping.json'
         seed_elements = [random.choice(self.keys) + " "]  # Start with a note and a space
         total_length = random.randint(25, 30)
 
         while True:
+            # make sure the seed melodies have different duration
             num_underscores = " ".join("_" * random.randint(1, 3)) + " "
             seed_elements.append(num_underscores)
             current_length = len(''.join(seed_elements))
@@ -109,7 +106,6 @@ class MelodyGenerator:
         return seed_string
     def _sample_with_temperature(self, probabilites, temperature):
         """Samples an index from a probability array reapplying softmax using temperature
-
         """
         predictions = np.log(probabilites) / temperature
         probabilites = np.exp(predictions) / np.sum(np.exp(predictions))
@@ -138,18 +134,14 @@ class MelodyGenerator:
                     # handle rest
                     if start_symbol == "r":
                         m21_event = m21.note.Rest(quarterLength=quarter_length_duration)
-
                     # handle note
                     else:
                         m21_event = m21.note.Note(int(start_symbol), quarterLength=quarter_length_duration)
 
                     stream.append(m21_event)
-
                     # reset the step counter
                     step_counter = 1
-
                 start_symbol = symbol
-
             # handle case in which we have a prolongation sign "_"
             else:
                 step_counter += 1
@@ -159,18 +151,14 @@ class MelodyGenerator:
         # write the m21 stream to a midi file
         stream.write('midi', fp=save_path)
 
-
-if __name__ == "__main__":
-    print("current_path:",current_app.root_path)
-    mg = MelodyGenerator()
-    seed = mg.generate_seed_melody()
-    print("seed1", seed)
-
-    melody = mg.generate_melody(seed,500 , SEQUENCE_LENGTH, 0.3)
-    # seed = "67 _ 64 _ 67 _ _ 65_65 _ 64 _ 64 _ _",
-    if len(melody) > 100:
-        melody = melody[:100]
-
-    print(len(melody))
-    print(melody)
-    mg.save_melody(melody)
+# if __name__ == "__main__":
+#     mg = MelodyGenerator()
+#     seed = mg.generate_seed_melody()
+#     melody = mg.generate_melody(seed,500 , SEQUENCE_LENGTH, 0.3)
+#     if len(melody) > 100:
+#         melody = melody[:100]
+#
+#     print(len(melody))
+#     print(melody)
+#     mg.save_melody(melody)
+#
