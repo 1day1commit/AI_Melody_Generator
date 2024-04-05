@@ -42,9 +42,9 @@ def generate_lyrics(num_notes,melody):
     response = openai.ChatCompletion.create(
         model="gpt-4-turbo-preview",
         messages=[
-            {"role": "user", "content": f"Take a look at the following midi notes: {melody}. At the end of the response, describe the melody style(atmosphere, mood, etc) with a few words in a bracket. "
-                                        f" Then, According to the style, Generate catchy lyrics for music hook for {num_notes} music notes."
-                                        f"For the response, only give me the lyrics and the melody style."}
+            {"role": "user", "content": f"Take a look at the following midi notes: {melody}. At the end of the response, describe the melody style(atmosphere, mood, etc)in a few words inside a bracket. "
+                                        f" Then, According to the style, Generate catchy lyrics for music hook that have {num_notes} syllables.(calculate the syllables word by word, generate again if different)"
+                                        f"Only print lyrics with the melody style in a bracket."}
         ]
     )
     lyrics = response.choices[0].message['content']
