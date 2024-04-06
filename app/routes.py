@@ -38,7 +38,7 @@ def generate_melody():
 @app.route('/generate_lyrics', methods=['POST'])
 def generate_lyrics(num_notes,melody):
     print(num_notes)
-    openai.api_key = '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'
+    openai.api_key = ''
     response = openai.ChatCompletion.create(
         model="gpt-4-turbo-preview",
         messages=[
